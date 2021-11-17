@@ -1,20 +1,12 @@
-const { Text, Select, Relationship } = require('@keystonejs/fields')
-const keystone = require('keystone');
+const { Text, Select, Relationship, File } = require('@keystonejs/fields')
+const { LocalFileAdapter } = require('@keystonejs/file-adapters');
 
-const recipeImgStorage = new keystone.Storage({
-    adapter: keystone.Storage.Adapters.FS,
-    fs: {
-       // required; path where the files should be stored
-      path: keystone.expandPath('server/public/img'),
-      generateFilename: function (file, index) {
-        return file.originalname;
-      },
-      whenExists: 'error',
-       // path where files will be served
-      publicPath: '/public/img',
-    },
-  });
-
+const fileAdapter = new LocalFileAdapter({
+    src: 'post/uploads',
+    path: '/post/uploads',
+    getFilename: ((options) => options.originalFilename) 
+});
+  
 const postFields = {
     fields : {
         title:{
@@ -33,9 +25,11 @@ const postFields = {
             ],
             defaultValue: "PUBLISHED"
         },
-        age:{
-            type:Text
-        },
+        image: {
+            type: File,
+            adapter:fileAdapter,
+            mimetype: '.jpeg, .jpg, .gif, .svg',
+          },
         author:{
             type: Relationship,
             ref: 'User',

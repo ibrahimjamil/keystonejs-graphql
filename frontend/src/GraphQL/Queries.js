@@ -8,7 +8,11 @@ export const LOAD_POSTS = gql`
       id
       title
       body
+      image{
+        publicUrl
+      }
       author{
+        id
         name
       }
     }

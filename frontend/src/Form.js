@@ -25,6 +25,7 @@ function Form({style,doFetch}) {
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
   const [author, setAuthor] = useState("")
+  const [image,setFile] = useState('')
   const [createUser] = useMutation(CREATE_USER_MUTATION);
   const [createPost] = useMutation(CREATE_POST_MUTATION);
 
@@ -41,13 +42,15 @@ function Form({style,doFetch}) {
   }
   
   const addPost = async () => {
-    await createPost({
+    const data = await createPost({
       variables:{
         title:title,
         body:body,
+        image:image,
         author:author
       }
     })
+    console.log(data)
     setTitle('')
     setBody('')
     setAuthor('')
@@ -159,6 +162,20 @@ function Form({style,doFetch}) {
           setAuthor(e.target.value);
         }}
       />
+      <div  style={{
+        width:"50%",
+        marginLeft:"auto",
+        marginRight:"auto",
+        marginBottom:"10px"
+      }}>
+        <input 
+          name={'document'} 
+          type={'file'} 
+          onChange={(e) => {
+              setFile(e.target.files[0])
+            }}
+        />
+      </div>
       <Button
         classes={{
             root:classes.root
@@ -170,7 +187,7 @@ function Form({style,doFetch}) {
         }}
         onClick={()=>addPost()}
       >
-        Add Post
+      Add Post
       </Button>
     </div>
   );

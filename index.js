@@ -4,6 +4,8 @@ const { GraphQLApp } = require('@keystonejs/app-graphql')
 const { AdminUIApp } = require('@keystonejs/app-admin-ui')
 const { PasswordAuthStrategy } = require('@keystonejs/auth-password')
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose')
+const { StaticApp } = require('@keystonejs/app-static');
+
 const PROJECT_NAME = 'Keystonejs'
 const adapterConfig = {
   mongoUri: process.env.MONGO_URI,
@@ -62,5 +64,10 @@ module.exports = {
       enableDefaultRoute: true,
       isAccessAllowed: true,
     }),
+    new StaticApp({
+      src: 'post/uploads',
+      path: '/post/uploads',
+      fallback: 'index.html',
+    })
   ],
 }

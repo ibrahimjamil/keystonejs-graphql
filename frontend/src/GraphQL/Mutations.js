@@ -20,20 +20,24 @@ export const CREATE_USER_MUTATION = gql`
   mutation createPost(
     $title: String!
     $body: String!
+    $image: Upload!
     $author: ID!
   ) {
     createPost(
       data:{
         title:$title,
         body:$body,
+        image: $image
         author:{
           connect:{
             id:$author
           }
         }
       }){
-      title
-      body
+        image{
+          path
+          publicUrl
+        }
     }
   }
   `;

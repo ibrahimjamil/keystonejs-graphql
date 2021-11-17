@@ -12,7 +12,6 @@ import Snackbar from '@mui/material/Snackbar';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-
 const useStyles = makeStyles({
   root: {
     "&:hover":{
@@ -47,7 +46,6 @@ const List = ({style,fetching,updateFetching}) => {
     const [body, setBody] = useState('')
 
     useEffect(() => {
-      console.log(data)
         if (data) {
           setPosts(data.allPosts);
         }
@@ -60,7 +58,6 @@ const List = ({style,fetching,updateFetching}) => {
     },[fetching])
 
     const updPost = async () => {
-      console.log(postIndex)
       await updatePost({
         variables: {
           id: postIndex,
@@ -99,8 +96,8 @@ const List = ({style,fetching,updateFetching}) => {
               </h1>
               {!!posts && posts.map((val,index) => {
                   return (
-                    <Grid direction="row" container xs={12}>
-                      <Grid item xs={10}>
+                    <Grid container xs={12} direction="column">
+                      <Grid item xs={12}>
                         <h4 style={{textAlign:"center",position:"relative"}}> 
                           <span 
                             style={{
@@ -108,10 +105,13 @@ const List = ({style,fetching,updateFetching}) => {
                             }}>
                             <FiberManualRecordIcon/> &nbsp;   
                           </span> 
-                            id :{val.id} title: {val.title} body:{val.body} and ref-author: {val.author.name}
+                            id :{val.id} title: {val.title} body:{val.body} and ref-author-name: {val.author.name} ref-author-id:{val.author.id}
                         </h4>
                       </Grid>
-                      <Grid container item direction="row" xs={2}>
+                      <Grid xs={12} justifyContent="center">
+                        <img src={"http://localhost:5000"+val.image.publicUrl} alt="post_image" style={{height:"100px",width:"100px"}}/>
+                      </Grid>
+                      <Grid container item direction="row" xs={12}>
                             <div style={{margin:"auto 10px",display:"flex",flexDirection:"row"}}>
                               <Tooltip title="Update">
                                 <div className={classes.root} onClick={()=>{
